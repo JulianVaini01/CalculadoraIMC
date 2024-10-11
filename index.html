@@ -86,11 +86,11 @@
 
     <div class="output">
         <label>Tu Altura: <span id="heightValue">1.70</span> metros</label>
-        <input type="range" id="height" min="1.20" max="2.20" step="0.01" value="1.70" oninput="updateHeightValue()">
+        <input type="range" id="height" min="1.20" max="2.25" step="0.01" value="1.70" oninput="updateHeightValue()">
     </div>
     <div class="output">
         <label>Tu Peso: <span id="weightValue">65</span> kg</label>
-        <input type="range" id="weight" min="40" max="150" value="65" oninput="updateWeightValue()">
+        <input type="range" id="weight" min="40" max="300" value="65" oninput="updateWeightValue()">
     </div>
     <div class="result">
         <h3 id="imcValue">IMC: --</h3>
@@ -99,11 +99,11 @@
     <button onclick="calculateIMC()">Calcular</button>
 
     <div class="classification">
-        <div class="low">&lt; 18<br>Bajo peso</div>
-        <div class="normal">18 - 25<br>Peso normal</div>
-        <div class="overweight">25 - 30<br>Exceso de peso</div>
-        <div class="obesity1">30 - 35<br>Obesidad I</div>
-        <div class="obesity2">35 - 40<br>Obesidad II</div>
+        <div class="low">&lt; 18.5<br>Desnutrición</div>
+        <div class="normal">18.5 - 24.9<br>Normal</div>
+        <div class="overweight">25.0 - 29.9<br>Sobrepeso</div>
+        <div class="obesity1">30.0 - 34.9<br>Obesidad I</div>
+        <div class="obesity2">35.0 - 39.9<br>Obesidad II</div>
         <div class="obesity3">&gt; 40<br>Obesidad III</div>
     </div>
     <div class="recommendation" id="recommendationText">
@@ -129,56 +129,44 @@
         // Mostrar el valor de IMC
         document.getElementById('imcValue').textContent = `IMC: ${imc}`;
 
-        // Clasificación y recomendaciones
+        // Clasificación del IMC según género
         let classification = '';
-        let recommendation = '';
 
-        // Ajustar las recomendaciones para el género femenino
-        if (gender === 'femenino') {
-            if (imc < 18) {
-                classification = 'Bajo peso';
-                recommendation = 'Es recomendable consumir más calorías y proteínas, incluyendo frutas, vegetales y grasas saludables.';
-            } else if (imc >= 18 && imc < 25) {
-                classification = 'Peso normal';
-                recommendation = 'Mantén un estilo de vida saludable con actividad física regular y una dieta equilibrada.';
+        if (gender === 'masculino') {
+            // Clasificación para hombres
+            if (imc < 18.5) {
+                classification = 'Desnutrición';
+            } else if (imc >= 18.5 && imc < 25) {
+                classification = 'Peso Normal';
             } else if (imc >= 25 && imc < 30) {
-                classification = 'Exceso de peso';
-                recommendation = 'Se recomienda una dieta baja en calorías y aumentar la actividad física, como caminar o nadar.';
+                classification = 'Sobrepeso';
             } else if (imc >= 30 && imc < 35) {
                 classification = 'Obesidad Grado I';
-                recommendation = 'Consulta con un nutricionista para un plan de alimentación y ejercicio adecuado.';
             } else if (imc >= 35 && imc < 40) {
                 classification = 'Obesidad Grado II';
-                recommendation = 'Busca asistencia médica para desarrollar un plan de pérdida de peso personalizado.';
             } else {
                 classification = 'Obesidad Grado III';
-                recommendation = 'Es importante obtener apoyo médico para un plan de pérdida de peso supervisado.';
             }
         } else {
-            // Recomendaciones para el género masculino
-            if (imc < 18) {
-                classification = 'Bajo peso';
-                recommendation = 'Es recomendable consumir alimentos ricos en calorías y proteínas, como frutos secos y carnes magras.';
-            } else if (imc >= 18 && imc < 25) {
-                classification = 'Peso normal';
-                recommendation = 'Tu peso es saludable. Sigue manteniendo una dieta equilibrada y actividad física regular.';
-            } else if (imc >= 25 && imc < 30) {
-                classification = 'Exceso de peso';
-                recommendation = 'Se recomienda una dieta baja en calorías y aumentar la actividad física diaria.';
-            } else if (imc >= 30 && imc < 35) {
+            // Clasificación para mujeres
+            if (imc < 18.5) {
+                classification = 'Desnutrición';
+            } else if (imc >= 18.5 && imc < 24.9) {
+                classification = 'Peso Normal';
+            } else if (imc >= 25 && imc < 29.9) {
+                classification = 'Sobrepeso';
+            } else if (imc >= 30 && imc < 34.9) {
                 classification = 'Obesidad Grado I';
-                recommendation = 'Consulta a un profesional de la salud para un plan de reducción de peso adecuado.';
-            } else if (imc >= 35 && imc < 40) {
+            } else if (imc >= 35 && imc < 39.9) {
                 classification = 'Obesidad Grado II';
-                recommendation = 'Se recomienda un plan supervisado por profesionales de la salud para reducir el peso.';
             } else {
                 classification = 'Obesidad Grado III';
-                recommendation = 'Es crucial buscar asistencia médica para una pérdida de peso saludable.';
             }
         }
 
+        // Mostrar clasificación
         document.getElementById('classificationText').textContent = `Clasificación: ${classification}`;
-        document.getElementById('recommendationText').textContent = recommendation;
+        document.getElementById('recommendationText').textContent = ''; // Puedes agregar recomendaciones personalizadas si lo deseas
     }
 </script>
 
