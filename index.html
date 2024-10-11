@@ -16,10 +16,11 @@
         }
         .container {
             background: white;
-            padding: 20px;
+            padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 400px;
+            width: 500px;
+            max-width: 100%;
         }
         .container h2 {
             text-align: center;
@@ -62,15 +63,30 @@
             text-align: center;
             font-size: 16px;
         }
+        .gender-select {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .gender-select input {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>Calculadora de IMC</h2>
+
+    <!-- Selección de género -->
+    <div class="gender-select">
+        <label><input type="radio" name="gender" value="masculino" checked> Masculino</label>
+        <label><input type="radio" name="gender" value="femenino"> Femenino</label>
+    </div>
+
     <div class="output">
-        <label>Tu Altura: <span id="heightValue">170</span> cm</label>
-        <input type="range" id="height" min="120" max="220" value="170" oninput="updateHeightValue()">
+        <label>Tu Altura: <span id="heightValue">1.70</span> metros</label>
+        <input type="range" id="height" min="1.20" max="2.20" step="0.01" value="1.70" oninput="updateHeightValue()">
     </div>
     <div class="output">
         <label>Tu Peso: <span id="weightValue">65</span> kg</label>
@@ -105,8 +121,9 @@
     }
 
     function calculateIMC() {
-        const height = document.getElementById('height').value / 100; // Convertimos a metros
-        const weight = document.getElementById('weight').value;
+        const height = parseFloat(document.getElementById('height').value); // en metros
+        const weight = parseFloat(document.getElementById('weight').value);
+        const gender = document.querySelector('input[name="gender"]:checked').value; // Obtener el género seleccionado
         const imc = (weight / (height * height)).toFixed(1);
 
         // Mostrar el valor de IMC
@@ -116,24 +133,48 @@
         let classification = '';
         let recommendation = '';
 
-        if (imc < 18) {
-            classification = 'Bajo peso';
-            recommendation = 'Es recomendable consumir alimentos ricos en calorías y proteínas, como frutos secos, carnes magras y lácteos.';
-        } else if (imc >= 18 && imc < 25) {
-            classification = 'Peso normal';
-            recommendation = 'Tu peso es saludable. Sigue manteniendo una dieta equilibrada y una actividad física regular.';
-        } else if (imc >= 25 && imc < 30) {
-            classification = 'Exceso de peso';
-            recommendation = 'Se recomienda una dieta baja en calorías, evitando azúcares refinados y grasas saturadas. Aumenta tu actividad física diaria.';
-        } else if (imc >= 30 && imc < 35) {
-            classification = 'Obesidad Grado I';
-            recommendation = 'Es importante reducir el consumo de calorías y aumentar la actividad física. Considera consultar a un profesional de la salud.';
-        } else if (imc >= 35 && imc < 40) {
-            classification = 'Obesidad Grado II';
-            recommendation = 'Consulta a un médico para un plan alimenticio y de ejercicio adecuado. El control médico es altamente recomendable.';
+        // Ajustar las recomendaciones para el género femenino
+        if (gender === 'femenino') {
+            if (imc < 18) {
+                classification = 'Bajo peso';
+                recommendation = 'Es recomendable consumir más calorías y proteínas, incluyendo frutas, vegetales y grasas saludables.';
+            } else if (imc >= 18 && imc < 25) {
+                classification = 'Peso normal';
+                recommendation = 'Mantén un estilo de vida saludable con actividad física regular y una dieta equilibrada.';
+            } else if (imc >= 25 && imc < 30) {
+                classification = 'Exceso de peso';
+                recommendation = 'Se recomienda una dieta baja en calorías y aumentar la actividad física, como caminar o nadar.';
+            } else if (imc >= 30 && imc < 35) {
+                classification = 'Obesidad Grado I';
+                recommendation = 'Consulta con un nutricionista para un plan de alimentación y ejercicio adecuado.';
+            } else if (imc >= 35 && imc < 40) {
+                classification = 'Obesidad Grado II';
+                recommendation = 'Busca asistencia médica para desarrollar un plan de pérdida de peso personalizado.';
+            } else {
+                classification = 'Obesidad Grado III';
+                recommendation = 'Es importante obtener apoyo médico para un plan de pérdida de peso supervisado.';
+            }
         } else {
-            classification = 'Obesidad Grado III';
-            recommendation = 'Es crucial buscar asistencia médica para una pérdida de peso saludable. Un plan supervisado por profesionales es necesario.';
+            // Recomendaciones para el género masculino
+            if (imc < 18) {
+                classification = 'Bajo peso';
+                recommendation = 'Es recomendable consumir alimentos ricos en calorías y proteínas, como frutos secos y carnes magras.';
+            } else if (imc >= 18 && imc < 25) {
+                classification = 'Peso normal';
+                recommendation = 'Tu peso es saludable. Sigue manteniendo una dieta equilibrada y actividad física regular.';
+            } else if (imc >= 25 && imc < 30) {
+                classification = 'Exceso de peso';
+                recommendation = 'Se recomienda una dieta baja en calorías y aumentar la actividad física diaria.';
+            } else if (imc >= 30 && imc < 35) {
+                classification = 'Obesidad Grado I';
+                recommendation = 'Consulta a un profesional de la salud para un plan de reducción de peso adecuado.';
+            } else if (imc >= 35 && imc < 40) {
+                classification = 'Obesidad Grado II';
+                recommendation = 'Se recomienda un plan supervisado por profesionales de la salud para reducir el peso.';
+            } else {
+                classification = 'Obesidad Grado III';
+                recommendation = 'Es crucial buscar asistencia médica para una pérdida de peso saludable.';
+            }
         }
 
         document.getElementById('classificationText').textContent = `Clasificación: ${classification}`;
