@@ -1,68 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMC Calculator</title>
+    <title>Calculadora de IMC</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f4f4f4;
         }
         .container {
-            background: #fff;
+            background: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 300px;
+            width: 400px;
         }
-        input, select, button {
+        .container h2 {
+            text-align: center;
+        }
+        input[type="range"] {
             width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
         }
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
+        .output {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
         }
         .result {
+            text-align: center;
             margin-top: 20px;
+        }
+        .result h3 {
+            font-size: 48px;
+            color: #ffca28;
+        }
+        .classification {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .classification div {
+            text-align: center;
+            padding: 10px;
+            width: 20%;
+            border-radius: 8px;
+        }
+        .classification .low { background-color: #d0e3ff; }
+        .classification .normal { background-color: #c5e1a5; }
+        .classification .overweight { background-color: #ffeb99; }
+        .classification .obesity1 { background-color: #fbc02d; }
+        .classification .obesity2 { background-color: #ff8a65; }
+        .classification .obesity3 { background-color: #e57373; }
+        .recommendation {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>IMC Calculator</h2>
-        <form method="POST">
-            <label for="gender">Gender:</label>
-            <select id="gender" name="gender" required>
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-            </select>
-            <label for="weight">Weight (kg):</label>
-            <input type="number" id="weight" name="weight" step="0.1" required>
-            <label for="height">Height (m):</label>
-            <input type="number" id="height" name="height" step="0.01" required>
-            <button type="submit">Calculate</button>
-        </form>
-        {% if imc is not none %}
-            <div class="result">
-                <h3>Your IMC: {{ imc | round(2) }}</h3>
-                <p>{{ recommendations }}</p>
-            </div>
-        {% endif %}
+
+<div class="container">
+    <h2>Calculadora de IMC</h2>
+    <div class="output">
+        <label>Tu Altura: <span id="heightValue">170</span> cm</label>
+        <input type="range" id="height" min="120" max="220" value="170" oninput="updateHeightValue()">
     </div>
+    <div class="output">
+        <label>Tu Peso: <span id="weightValue">65</span> kg</label>
+        <input type="range" id="weight" min="40" max="150" value="65" oninput="updateWeightValue()">
+    </div>
+    <div class="result">
+        <h3 id="imcValue">IMC: --</h3>
+        <p id="classificationText"></p>
+    </div>
+    <button onclick="calculateIMC()">Calcular</button>
+
+    <div class="classification">
+        <div class="low">&lt; 18<br>Bajo peso</div>
+        <div class="normal">18 - 25<br>Peso normal</div>
+        <div class="overweight">25 - 30<br>Exceso de peso</div>
+        <div class="obesity1">30 - 35<br>Obesidad I</div>
+        <div class="obesity2">35 - 40<br>Obesidad II</div>
+        <div class="obesity3">&gt; 40<br>Obesidad III</div>
+    </div>
+    <div class="recommendation" id="recommendationText">
+        <!-- Aquí aparecerán las recomendaciones dietéticas -->
+    </div>
+</div>
+
+<script>
+    function updateHeightValue() {
+        document.getElementById('heightValue').textContent = document.getElementById('height').value;
+    }
+
+    function updateWeightValue() {
+        document.getElementById('weightValue').textContent = document.getElementById('weight').value;
+    }
+
+    function calculateIMC() {
+        const height = document.getElementById('height').value / 100; // Convertimos a metros
+        const weight = document.getElementById('weight').value;
+        const imc = (weight / (height * height)).toFixed(1);
+
+        // Mostrar el valor de IMC
+        document.getElementById('imcValue').textContent = `IMC: ${imc}`;
+
+        // Clasificación y recomendaciones
+        let classification = '';
+        let recommendation = '';
+
+        if (imc < 18) {
+            classification = 'Bajo peso';
+            recommendation = 'Es recomendable consumir alimentos ricos en calorías y proteínas, como frutos secos, carnes magras y lácteos.';
+        } else if (imc >= 18 && imc < 25) {
+            classification = 'Peso normal';
+            recommendation = 'Tu peso es saludable. Sigue manteniendo una dieta equilibrada y una actividad física regular.';
+        } else if (imc >= 25 && imc < 30) {
+            classification = 'Exceso de peso';
+            recommendation = 'Se recomienda una dieta baja en calorías, evitando azúcares refinados y grasas saturadas. Aumenta tu actividad física diaria.';
+        } else if (imc >= 30 && imc < 35) {
+            classification = 'Obesidad Grado I';
+            recommendation = 'Es importante reducir el consumo de calorías y aumentar la actividad física. Considera consultar a un profesional de la salud.';
+        } else if (imc >= 35 && imc < 40) {
+            classification = 'Obesidad Grado II';
+            recommendation = 'Consulta a un médico para un plan alimenticio y de ejercicio adecuado. El control médico es altamente recomendable.';
+        } else {
+            classification = 'Obesidad Grado III';
+            recommendation = 'Es crucial buscar asistencia médica para una pérdida de peso saludable. Un plan supervisado por profesionales es necesario.';
+        }
+
+        document.getElementById('classificationText').textContent = `Clasificación: ${classification}`;
+        document.getElementById('recommendationText').textContent = recommendation;
+    }
+</script>
+
 </body>
 </html>
