@@ -13,14 +13,31 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.2); /* Sombra en todo el fondo */
+        }
+        .top-bar, .bottom-bar {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            left: 0;
+        }
+        .top-bar {
+            top: 0;
+        }
+        .bottom-bar {
+            bottom: 0;
         }
         .container {
             background: white;
-            padding: 40px; /* Padding interno */
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 800px; /* Aumentar el ancho del contenedor */
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra para efecto 3D */
+            width: 800px;
             max-width: 100%;
+            margin-top: 100px;
+            margin-bottom: 100px;
         }
         .container h2 {
             text-align: center;
@@ -48,10 +65,14 @@
         }
         .classification div {
             text-align: center;
-            padding: 20px; /* Ajustar el padding interno */
-            width: 13%; /* Ajustar el ancho de las categorías para que sean iguales */
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1); /* Sombra para resaltar los recuadros */
+            padding: 20px;
+            width: 13%;
+            border: 1px solid #ddd; /* Añadido borde */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra para resaltar */
+        }
+        /* Quitar bordes redondeados */
+        .classification div {
+            border-radius: 0;
         }
         .classification .low { background-color: #d0e3ff; }
         .classification .normal { background-color: #c5e1a5; }
@@ -75,6 +96,11 @@
     </style>
 </head>
 <body>
+
+<!-- Barra superior con descripción de la página -->
+<div class="top-bar">
+    <p>Bienvenido a la Calculadora de IMC - Proporcione su información para obtener su índice de masa corporal y recomendaciones personalizadas.</p>
+</div>
 
 <div class="container">
     <h2>Calculadora de IMC</h2>
@@ -110,6 +136,11 @@
     <div class="recommendation" id="recommendationText">
         <!-- Aquí aparecerán las recomendaciones dietéticas -->
     </div>
+</div>
+
+<!-- Barra inferior con mensaje de agradecimiento -->
+<div class="bottom-bar">
+    <p>Gracias por utilizar la Calculadora de IMC. Si tienes alguna sugerencia, visita el siguiente <a href="#" style="color: #ffca28;">enlace</a>.</p>
 </div>
 
 <script>
@@ -178,8 +209,7 @@
             }
         }
 
-        // Mostrar clasificación y recomendación
-        document.getElementById('classificationText').textContent = `Clasificación: ${classification}`;
+        document.getElementById('classificationText').textContent = classification;
         document.getElementById('recommendationText').textContent = recommendation;
     }
 </script>
