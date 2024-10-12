@@ -36,7 +36,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra para efecto 3D */
             width: 800px;
             max-width: 100%;
-            margin-top: 100px;
+            margin-top: 160px;
             margin-bottom: 100px;
         }
         .container h2 {
@@ -70,7 +70,6 @@
             border: 1px solid #ddd; /* Añadido borde */
             box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra para resaltar */
         }
-        /* Quitar bordes redondeados */
         .classification div {
             border-radius: 0;
         }
@@ -93,13 +92,25 @@
         .gender-select input {
             margin-right: 10px;
         }
+        .description {
+            margin-top: 20px;
+            padding: 0 15px;
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
     </style>
 </head>
 <body>
 
-<!-- Barra superior con descripción de la página -->
+<!-- Barra superior con el título de la página -->
 <div class="top-bar">
-    <p>Bienvenido a la Calculadora de IMC - Proporcione su información para obtener su índice de masa corporal y recomendaciones personalizadas.</p>
+    <h2>Calculadora de IMC</h2>
+</div>
+
+<!-- Descripción detallada de la página -->
+<div class="description">
+    <p>La Calculadora de IMC es una herramienta diseñada para ayudarte a evaluar si tienes un peso saludable. Introduce tu altura y peso, y el sistema calculará tu Índice de Masa Corporal (IMC). Además, recibirás recomendaciones personalizadas sobre tu dieta y hábitos para mejorar o mantener tu salud, basadas en el resultado de tu IMC.</p>
 </div>
 
 <div class="container">
@@ -138,9 +149,9 @@
     </div>
 </div>
 
-<!-- Barra inferior con mensaje de agradecimiento -->
+<!-- Barra inferior con enlace funcional -->
 <div class="bottom-bar">
-    <p>Gracias por utilizar la Calculadora de IMC. Si tienes alguna sugerencia, visita el siguiente <a href="#" style="color: #ffca28;">enlace</a>.</p>
+    <p>Gracias por utilizar la Calculadora de IMC. Si tienes alguna sugerencia, visita el siguiente <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=64W6sVOiZ0Se6NT47U3zAHEHe0X7MeZImW9XNS-0589UOTVDSlEwOFlKQ0hKMVhZMk9OSU9BOFlZTy4u" style="color: #ffca28;" target="_blank">enlace</a>.</p>
 </div>
 
 <script>
@@ -191,16 +202,16 @@
             if (imc < 18.5) {
                 classification = 'Desnutrición';
                 recommendation = 'Recomendación: Aumenta tu ingesta calórica con alimentos ricos en proteínas, carbohidratos y grasas saludables.';
-            } else if (imc >= 18.5 && imc < 24.9) {
+            } else if (imc >= 18.5 && imc < 25) {
                 classification = 'Peso Normal';
                 recommendation = 'Recomendación: Mantén una dieta equilibrada y sigue un estilo de vida saludable.';
-            } else if (imc >= 25 && imc < 29.9) {
+            } else if (imc >= 25 && imc < 30) {
                 classification = 'Sobrepeso';
                 recommendation = 'Recomendación: Modera tu ingesta calórica y aumenta la actividad física para perder peso de manera saludable.';
-            } else if (imc >= 30 && imc < 34.9) {
+            } else if (imc >= 30 && imc < 35) {
                 classification = 'Obesidad Grado I';
                 recommendation = 'Recomendación: Considera un plan de reducción de peso con asesoramiento nutricional y más ejercicio físico.';
-            } else if (imc >= 35 && imc < 39.9) {
+            } else if (imc >= 35 && imc < 40) {
                 classification = 'Obesidad Grado II';
                 recommendation = 'Recomendación: Es recomendable acudir a un especialista para un plan de pérdida de peso personalizado.';
             } else {
